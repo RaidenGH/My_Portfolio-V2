@@ -23,7 +23,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
 
 </head>
 
@@ -221,6 +220,79 @@
            but also memorable. I believe technology should feel human, and I aim to craft digital solutions that 
            reflect each brand’s unique identity while delivering seamless user experiences.
           </p>
+        </section>
+
+        <!--
+          - fitness & training
+        -->
+
+        <section class="fitness">
+
+          <h3 class="h3 fitness-title">🏋️ Fitness & Training</h3>
+
+          <div class="fitness-text">
+            <p>
+              Beyond the screen, I'm a dedicated fitness enthusiast and trainer. 
+              I believe the discipline, consistency, and determination I've built through 
+              bodybuilding and training are the same qualities that drive my success in tech.
+            </p>
+            <p>
+              Whether I'm guiding others through their fitness journey, pushing for a new 
+              personal record, or studying the science of muscle growth, I bring the same 
+              passion and commitment to the gym as I do to my projects. Training taught me 
+              that real progress comes from showing up every single day — a mindset I carry 
+              into everything I do.
+            </p>
+          </div>
+
+          <ul class="fitness-gallery">
+
+            <li class="fitness-gallery-item">
+              <figure class="fitness-img-box" data-fitness-item>
+                <img src="./assets/images/fitness/fitness1.jpg" alt="Gym training session" width="400" height="300" loading="lazy" data-fitness-img>
+                <figcaption class="fitness-img-caption">Gym Training Session</figcaption>
+              </figure>
+            </li>
+
+            <li class="fitness-gallery-item">
+              <figure class="fitness-img-box" data-fitness-item data-fitness-video-src="./assets/images/fitness/cardio.mp4">
+                <video poster="./assets/images/fitness/cardio_frame.jpg" width="400" height="300" muted loop playsinline preload="none"></video>
+                <figcaption class="fitness-img-caption">
+                  <span class="video-play-icon">
+                    <ion-icon name="play-circle-outline"></ion-icon>
+                  </span>
+                  Cardio & Endurance Training
+                </figcaption>
+              </figure>
+            </li>
+
+            <li class="fitness-gallery-item">
+              <figure class="fitness-img-box" data-fitness-item>
+                <img src="./assets/images/fitness/fitness3.jpg" alt="Cardio & endurance" width="400" height="300" loading="lazy" data-fitness-img>
+                <figcaption class="fitness-img-caption">Gym Workout</figcaption>
+              </figure>
+            </li>
+
+            <li class="fitness-gallery-item">
+              <figure class="fitness-img-box" data-fitness-item>
+                <img src="./assets/images/fitness/fitness4.jpg" alt="Fitness journey" width="400" height="300" loading="lazy" data-fitness-img>
+                <figcaption class="fitness-img-caption">Fitness Journey</figcaption>
+              </figure>
+            </li>
+
+          </ul>
+
+          <div class="fitness-modal-container" data-fitness-modal-container>
+            <div class="fitness-overlay" data-fitness-overlay></div>
+            <div class="fitness-modal">
+              <button class="fitness-modal-close-btn" data-fitness-modal-close>
+                <ion-icon name="close-outline"></ion-icon>
+              </button>
+              <img src="" alt="" class="fitness-modal-img" data-fitness-modal-img>
+              <video src="" class="fitness-modal-video" data-fitness-modal-video controls playsinline muted autoplay style="display:none;"></video>
+            </div>
+          </div>
+
         </section>
 
 
@@ -1212,15 +1284,6 @@
     </div>
 
   </main>
-
-<div class="map-background">
-  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d253299.44002317777!2d125.28743927650919!3d7.263162074195844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f96d9f519e327f%3A0xb53a24589f79c573!2sDavao%20City%2C%20Davao%20del%20Sur!5e0!3m2!1sen!2sph!4v1778489783727!5m2!1sen!2sph"
-   width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-</div>
-
-
-
-
 
   <!--
     - custom js link

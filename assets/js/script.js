@@ -136,6 +136,64 @@ for (let i = 0; i < formInputs.length; i++) {
 
 
 
+// fitness gallery lightbox variables
+const fitnessItems = document.querySelectorAll("[data-fitness-item]");
+const fitnessModalContainer = document.querySelector("[data-fitness-modal-container]");
+const fitnessModalCloseBtn = document.querySelector("[data-fitness-modal-close]");
+const fitnessOverlay = document.querySelector("[data-fitness-overlay]");
+const fitnessModalImg = document.querySelector("[data-fitness-modal-img]");
+const fitnessModalVideo = document.querySelector("[data-fitness-modal-video]");
+
+// fitness modal toggle function
+const fitnessModalFunc = function () {
+  fitnessModalContainer.classList.toggle("active");
+  fitnessOverlay.classList.toggle("active");
+  
+  // pause video when closing
+  if (!fitnessModalContainer.classList.contains("active")) {
+    fitnessModalVideo.pause();
+  }
+}
+
+// add click event to all fitness gallery items
+for (let i = 0; i < fitnessItems.length; i++) {
+  fitnessItems[i].addEventListener("click", function () {
+    // check if this item has a video
+    const videoSrc = this.getAttribute("data-fitness-video-src");
+    
+    if (videoSrc) {
+      // show video, hide img
+      fitnessModalImg.style.display = "none";
+      fitnessModalVideo.style.display = "block";
+      fitnessModalVideo.src = videoSrc;
+      fitnessModalVideo.play();
+    } else {
+      // show img, hide video
+      const img = this.querySelector("[data-fitness-img]");
+      fitnessModalImg.src = img.src;
+      fitnessModalImg.alt = img.alt;
+      fitnessModalImg.style.display = "block";
+      fitnessModalVideo.style.display = "none";
+      fitnessModalVideo.pause();
+      fitnessModalVideo.src = "";
+    }
+    
+    fitnessModalFunc();
+  });
+}
+
+// add click event to modal close button and overlay
+fitnessModalCloseBtn.addEventListener("click", fitnessModalFunc);
+fitnessOverlay.addEventListener("click", fitnessModalFunc);
+
+// close modal with Escape key
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape" && fitnessModalContainer.classList.contains("active")) {
+    fitnessModalFunc();
+  }
+});
+
+
 // page navigation variables
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
