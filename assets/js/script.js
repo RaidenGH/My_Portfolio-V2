@@ -119,6 +119,7 @@ for (let i = 0; i < filterBtn.length; i++) {
 const form = document.querySelector("[data-form]");
 const formInputs = document.querySelectorAll("[data-form-input]");
 const formBtn = document.querySelector("[data-form-btn]");
+const formStatus = document.querySelector("[data-form-status]");
 
 // add event to all form input field
 for (let i = 0; i < formInputs.length; i++) {
@@ -133,6 +134,40 @@ for (let i = 0; i < formInputs.length; i++) {
 
   });
 }
+
+// handle form submission with AJAX for inline feedback
+form.addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  formBtn.setAttribute("disabled", "");
+  formStatus.textContent = "Sending...";
+  formStatus.className = "form-status form-status--sending";
+  formStatus.style.display = "block";
+
+  if (!form.checkValidity()) return;
+
+  try {
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { "Accept": "application/json" }
+    });
+
+    if (response.ok) {
+      formStatus.textContent = "✓ Message sent! I'll get back to you soon.";
+      formStatus.className = "form-status form-status--success";
+      form.reset();
+    } else {
+      formStatus.textContent = "✗ Something went wrong. Please try again or email me directly.";
+      formStatus.className = "form-status form-status--error";
+    }
+  } catch (error) {
+    formStatus.textContent = "✗ Network error. Please check your connection and try again.";
+    formStatus.className = "form-status form-status--error";
+  }
+
+  formBtn.removeAttribute("disabled");
+});
 
 
 
@@ -202,16 +237,177 @@ const pages = document.querySelectorAll("[data-page]");
 for (let i = 0; i < navigationLinks.length; i++) {
   navigationLinks[i].addEventListener("click", function () {
 
-    for (let i = 0; i < pages.length; i++) {
-      if (this.innerHTML.toLowerCase() === pages[i].dataset.page) {
-        pages[i].classList.add("active");
-        navigationLinks[i].classList.add("active");
+    const targetPage = this.innerHTML.toLowerCase();
+
+    for (let j = 0; j < pages.length; j++) {
+      if (targetPage === pages[j].dataset.page) {
+        pages[j].classList.add("active");
+        navigationLinks[j].classList.add("active");
         window.scrollTo(0, 0);
       } else {
-        pages[i].classList.remove("active");
-        navigationLinks[i].classList.remove("active");
+        pages[j].classList.remove("active");
+        navigationLinks[j].classList.remove("active");
       }
     }
 
   });
 }
+
+
+// typewriter effect for the title
+const typingTarget = document.querySelector("[data-typing-target]");
+if (typingTarget) {
+  const fullText = typingTarget.textContent;
+
+  // Skip animation for users who prefer reduced motion
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    typingTarget.textContent = fullText;
+  } else {
+    typingTarget.textContent = "";
+
+    const textSpan = document.createElement("span");
+    textSpan.style.display = "inline";
+    const cursorSpan = document.createElement("span");
+    cursorSpan.className = "typing-cursor";
+    // cursor is styled via CSS as a thin block, not a text character
+
+    typingTarget.appendChild(textSpan);
+    typingTarget.appendChild(cursorSpan);
+
+    let charIndex = 0;
+    let isDeleting = false;
+    let pauseDelay = 2000;
+
+    function typeEffect() {
+      if (isDeleting) {
+        if (charIndex > 0) {
+          textSpan.textContent = fullText.substring(0, charIndex - 1);
+          charIndex--;
+          setTimeout(typeEffect, 30);
+        } else {
+          isDeleting = false;
+          setTimeout(typeEffect, 300);
+        }
+      } else {
+        if (charIndex < fullText.length) {
+          textSpan.textContent += fullText.charAt(charIndex);
+          charIndex++;
+          setTimeout(typeEffect, 60);
+        } else {
+          setTimeout(() => {
+            isDeleting = true;
+            setTimeout(typeEffect, 300);
+          }, pauseDelay);
+        }
+      }
+    }
+
+    setTimeout(typeEffect, 400);
+  }
+}
+
+
+// theme toggle
+const themeToggle = document.querySelector("[data-theme-toggle]");
+const themeIcon = themeToggle?.querySelector("ion-icon");
+
+function setTheme(isLight) {
+  document.body.classList.toggle("light-mode", isLight);
+  if (themeIcon) {
+    themeIcon.name = isLight ? "sunny-outline" : "moon-outline";
+  }
+  localStorage.setItem("theme", isLight ? "light" : "dark");
+}
+
+// Initialize theme
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme) {
+  setTheme(savedTheme === "light");
+} else {
+  // Respect system preference
+  setTheme(window.matchMedia("(prefers-color-scheme: light)").matches);
+}
+
+// Toggle on click
+themeToggle?.addEventListener("click", function () {
+  setTheme(!document.body.classList.contains("light-mode"));
+});
+
+
+// skill bar animation on scroll
+const skillFills = document.querySelectorAll(".skill-progress-fill");
+const skillsSection = document.querySelector(".skills-list");
+
+if (skillFills.length && skillsSection) {
+  // Store target widths from data-percent, then reset to 0
+  skillFills.forEach(function (bar) {
+    bar.dataset.targetWidth = bar.getAttribute("data-percent") || 0;
+    bar.style.width = "0";
+  });
+
+  const observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          skillFills.forEach(function (bar) {
+            bar.style.width = bar.dataset.targetWidth + "%";
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+
+  observer.observe(skillsSection);
+}
+
+
+// portfolio lightbox
+const portfolioItems = document.querySelectorAll(".project-item");
+const portfolioModalContainer = document.querySelector("[data-portfolio-modal-container]");
+const portfolioModalCloseBtn = document.querySelector("[data-portfolio-modal-close]");
+const portfolioOverlay = document.querySelector("[data-portfolio-overlay]");
+const portfolioModalImg = document.querySelector("[data-portfolio-modal-img]");
+const portfolioModalCaption = document.querySelector("[data-portfolio-modal-caption]");
+
+// portfolio modal toggle function
+const portfolioModalFunc = function () {
+  portfolioModalContainer.classList.toggle("active");
+  portfolioOverlay.classList.toggle("active");
+}
+
+// add click event to all portfolio project links
+for (let i = 0; i < portfolioItems.length; i++) {
+  const link = portfolioItems[i].querySelector("a");
+  if (!link) continue;
+
+  link.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    const img = this.querySelector(".project-img img");
+    const title = this.querySelector(".project-title");
+
+    if (img) {
+      portfolioModalImg.src = img.src;
+      portfolioModalImg.alt = img.alt;
+    }
+
+    if (title) {
+      portfolioModalCaption.textContent = title.textContent;
+    }
+
+    portfolioModalFunc();
+  });
+}
+
+// close portfolio modal on close button click
+portfolioModalCloseBtn.addEventListener("click", portfolioModalFunc);
+portfolioOverlay.addEventListener("click", portfolioModalFunc);
+
+// close portfolio modal with Escape key
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape" && portfolioModalContainer.classList.contains("active")) {
+    portfolioModalFunc();
+  }
+});
