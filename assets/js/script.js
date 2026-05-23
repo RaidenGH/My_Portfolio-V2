@@ -2,6 +2,30 @@
 
 
 
+// ========== PRELOADER ==========
+
+var preloader = document.querySelector('[data-preloader]');
+
+if (preloader) {
+  function hidePreloader() {
+    preloader.classList.add('fade-out');
+    setTimeout(function () {
+      preloader.style.display = 'none';
+    }, 700);
+  }
+
+  // Fallback: hide after 3 seconds even if page hasn't fully loaded
+  var preloaderTimer = setTimeout(hidePreloader, 3000);
+
+  window.addEventListener('load', function () {
+    clearTimeout(preloaderTimer);
+    // Small delay ensures smooth transition after everything renders
+    setTimeout(hidePreloader, 300);
+  });
+}
+
+
+
 // element toggle function
 const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
 
@@ -363,13 +387,85 @@ if (skillFills.length && skillsSection) {
 }
 
 
-// portfolio lightbox
+// ========== PORTFOLIO PROJECT DATA ==========
+const projectData = {
+  "finance": {
+    title: "Finance",
+    category: "Web development",
+    description: "A comprehensive financial dashboard web app for tracking stock market data, portfolio performance, and analytics. Features real-time data visualization with interactive charts, customizable watchlists, and historical trend analysis to help users make informed investment decisions.",
+    tech: ["React", "TypeScript", "Chart.js", "Node.js", "CSS3"],
+    link: "https://github.com/RaidenGH"
+  },
+  "orizon": {
+    title: "Orizon",
+    category: "Web development",
+    description: "A travel and landscape brand website that immerses visitors in breathtaking destinations through stunning visuals and curated travel guides. Features interactive maps, destination showcases, and a seamless booking experience designed to inspire wanderlust.",
+    tech: ["HTML5", "CSS3", "JavaScript", "Figma", "React"],
+    link: "https://github.com/RaidenGH"
+  },
+  "fundo": {
+    title: "Fundo",
+    category: "Web design",
+    description: "An investment and finance platform UI design that balances modern aesthetics with intuitive usability. Clean typography, data-rich dashboards, and a sophisticated color palette create a trustworthy and engaging user experience for investors.",
+    tech: ["Figma", "HTML5", "CSS3", "JavaScript"],
+    link: "https://github.com/RaidenGH"
+  },
+  "brawlhalla": {
+    title: "Brawlhalla",
+    category: "Applications",
+    description: "A gaming companion app built for battle arena enthusiasts. Provides real-time match stats, character guides, combo libraries, and match history tracking. Designed with a dynamic, energetic UI that captures the thrill of competitive gaming.",
+    tech: ["JavaScript", "React", "Node.js", "CSS3", "Git"],
+    link: "https://github.com/RaidenGH"
+  },
+  "dsm.": {
+    title: "DSM.",
+    category: "Web design",
+    description: "A modern architecture and design brand website that embodies minimalist sophistication. Clean lines, generous whitespace, and curated project galleries showcase the beauty of contemporary architectural design with a focus on visual storytelling.",
+    tech: ["Figma", "HTML5", "CSS3", "JavaScript", "React"],
+    link: "https://github.com/RaidenGH"
+  },
+  "metaspark": {
+    title: "MetaSpark",
+    category: "Web design",
+    description: "A futuristic tech brand landing page that explores metaverse and digital innovation concepts. Features immersive 3D visual elements, dynamic particle animations, and a bold cyberpunk-inspired aesthetic that positions the brand at the cutting edge of technology.",
+    tech: ["Figma", "HTML5", "CSS3", "JavaScript", "React"],
+    link: "https://github.com/RaidenGH"
+  },
+  "summary": {
+    title: "Summary",
+    category: "Web development",
+    description: "A business analytics tool that transforms raw data into actionable insights through interactive summary reports and visualizations. Features custom report generation, export capabilities, and real-time data syncing for teams.",
+    tech: ["React", "TypeScript", "Chart.js", "Node.js", "Python"],
+    link: "https://github.com/RaidenGH"
+  },
+  "task manager": {
+    title: "Task Manager",
+    category: "Applications",
+    description: "A productivity web app designed for efficient task management and workflow organization. Features drag-and-drop kanban boards, priority tagging, deadline tracking, and team collaboration tools to keep projects moving forward.",
+    tech: ["JavaScript", "React", "HTML5", "CSS3", "Node.js", "Git"],
+    link: "https://github.com/RaidenGH"
+  },
+  "arrival": {
+    title: "Arrival",
+    category: "Web development",
+    description: "A travel arrival and departure tracking app that simplifies airport journey management. Provides real-time flight status updates, gate change notifications, itinerary organization, and travel document checklists for stress-free travel.",
+    tech: ["React", "TypeScript", "Node.js", "HTML5", "CSS3", "Git"],
+    link: "https://github.com/RaidenGH"
+  }
+};
+
+
+// ========== PORTFOLIO DETAIL MODAL ==========
 const portfolioItems = document.querySelectorAll(".project-item");
 const portfolioModalContainer = document.querySelector("[data-portfolio-modal-container]");
 const portfolioModalCloseBtn = document.querySelector("[data-portfolio-modal-close]");
 const portfolioOverlay = document.querySelector("[data-portfolio-overlay]");
 const portfolioModalImg = document.querySelector("[data-portfolio-modal-img]");
-const portfolioModalCaption = document.querySelector("[data-portfolio-modal-caption]");
+const portfolioModalTitle = document.querySelector("[data-portfolio-modal-title]");
+const portfolioModalCategory = document.querySelector("[data-portfolio-modal-category]");
+const portfolioModalDesc = document.querySelector("[data-portfolio-modal-desc]");
+const portfolioModalTechList = document.querySelector("[data-portfolio-modal-tech]");
+const portfolioModalLink = document.querySelector("[data-portfolio-modal-link]");
 
 // portfolio modal toggle function
 const portfolioModalFunc = function () {
@@ -385,17 +481,41 @@ for (let i = 0; i < portfolioItems.length; i++) {
   link.addEventListener("click", function (e) {
     e.preventDefault();
 
+    // Get project key from alt text or title
     const img = this.querySelector(".project-img img");
-    const title = this.querySelector(".project-title");
+    const titleEl = this.querySelector(".project-title");
+    const categoryEl = this.querySelector(".project-category");
 
-    if (img) {
-      portfolioModalImg.src = img.src;
-      portfolioModalImg.alt = img.alt;
+    if (!img || !titleEl) return;
+
+    const projectKey = titleEl.textContent.trim().toLowerCase();
+    const data = projectData[projectKey];
+
+    if (!data) return;
+
+    // Populate image
+    portfolioModalImg.src = img.src;
+    portfolioModalImg.alt = img.alt;
+
+    // Populate title
+    portfolioModalTitle.textContent = data.title;
+
+    // Populate category
+    portfolioModalCategory.textContent = data.category;
+
+    // Populate description
+    portfolioModalDesc.textContent = data.description;
+
+    // Populate tech badges
+    portfolioModalTechList.innerHTML = "";
+    for (var t = 0; t < data.tech.length; t++) {
+      var li = document.createElement("li");
+      li.textContent = data.tech[t];
+      portfolioModalTechList.appendChild(li);
     }
 
-    if (title) {
-      portfolioModalCaption.textContent = title.textContent;
-    }
+    // Set project link
+    portfolioModalLink.href = data.link;
 
     portfolioModalFunc();
   });
@@ -411,3 +531,116 @@ document.addEventListener("keydown", function (e) {
     portfolioModalFunc();
   }
 });
+
+
+// ========== SCROLL REVEAL ANIMATIONS ==========
+const revealSelectors = [
+  '.service-item', '.testimonials-item', '.project-item',
+  '.blog-post-item', '.timeline-item', '.skills-item',
+  '.fitness-gallery-item', '.counter-stats-item', '.badge-item'
+];
+
+const revealElements = document.querySelectorAll(revealSelectors.join(', '));
+
+if (revealElements.length) {
+  // Group children by parent for stagger class
+  const parentMap = new Map();
+
+  revealElements.forEach(function (el) {
+    var parent = el.parentElement;
+    if (!parentMap.has(parent)) {
+      parentMap.set(parent, []);
+    }
+    parentMap.get(parent).push(el);
+  });
+
+  parentMap.forEach(function (children, parent) {
+    parent.classList.add('reveal-stagger');
+    children.forEach(function (child) { child.classList.add('reveal'); });
+  });
+
+  var revealObserver = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15, rootMargin: '0px 0px -50px 0px' }
+  );
+
+  revealElements.forEach(function (el) { revealObserver.observe(el); });
+}
+
+
+// ========== ANIMATED COUNTER STATS ==========
+var counters = document.querySelectorAll('.counter');
+var counterSection = document.querySelector('.counter-stats');
+
+if (counters.length && counterSection) {
+  var counterObserver = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          counters.forEach(function (counter) {
+            var target = parseInt(counter.getAttribute('data-target'));
+            if (isNaN(target)) return;
+
+            var increment = Math.ceil(target / 50);
+            var current = 0;
+
+            function updateCounter() {
+              current += increment;
+              if (current < target) {
+                counter.textContent = current;
+                requestAnimationFrame(updateCounter);
+              } else {
+                counter.textContent = target;
+              }
+            }
+
+            updateCounter();
+          });
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+
+  counterObserver.observe(counterSection);
+}
+
+
+// ========== BACK TO TOP BUTTON ==========
+var backToTopBtn = document.querySelector('[data-back-to-top]');
+
+if (backToTopBtn) {
+  window.addEventListener('scroll', function () {
+    if (window.scrollY > 400) {
+      backToTopBtn.classList.add('visible');
+    } else {
+      backToTopBtn.classList.remove('visible');
+    }
+  });
+
+  backToTopBtn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+
+// ========== FLOATING SOCIAL BAR ==========
+var floatingSocial = document.querySelector('[data-floating-social]');
+
+if (floatingSocial) {
+  window.addEventListener('scroll', function () {
+    if (window.scrollY > 300) {
+      floatingSocial.classList.add('visible');
+    } else {
+      floatingSocial.classList.remove('visible');
+    }
+  });
+}
