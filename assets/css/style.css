@@ -156,6 +156,7 @@ input, textarea {
 html {
   font-family: var(--ff-poppins);
   background: hsl(0, 0%, 5%);
+  overscroll-behavior: none;
 }
 
 html:has(body.light-mode) {
@@ -3487,6 +3488,7 @@ body.light-mode .floating-social-link:hover {
 \*-----------------------------------*/
 
 body {
+  overscroll-behavior: none;
   background: linear-gradient(
     135deg,
     hsl(0, 0%, 5%) 0%,
