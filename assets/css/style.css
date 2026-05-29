@@ -319,7 +319,7 @@ main {
   transition: var(--transition-2);
 }
 
-.sidebar.active { max-height: 405px; }
+.sidebar.active { max-height: 500px; }
 
 .sidebar-info {
   position: relative;
@@ -364,6 +364,14 @@ main {
   box-shadow: var(--shadow-2);
   transition: var(--transition-1);
   z-index: 1;
+}
+
+@media (min-width: 580px) {
+  .info_more-btn {
+    top: -30px;
+    right: -30px;
+    padding: 10px 15px;
+  }
 }
 
 .info_more-btn::before {
@@ -2090,6 +2098,336 @@ article.active > section:nth-of-type(8) { animation-delay: 0.48s; }
   #RESPONSIVE
 \*-----------------------------------*/
 
+/*-----------------------------------*\
+  #RESPONSIVE
+\*-----------------------------------*/
+
+/**
+ * responsive for small mobile screens (< 450px)
+ */
+
+@media (max-width: 449px) {
+
+  /**
+   * MAIN
+   */
+
+  main {
+    margin: 12px 10px;
+    margin-bottom: 75px;
+    min-width: unset;
+  }
+
+
+  /**
+   * SIDEBAR
+   */
+
+  .sidebar {
+    padding: 12px;
+    max-height: 100px;
+  }
+
+  .sidebar.active { max-height: 520px; }
+
+  .sidebar-info {
+    gap: 10px;
+  }
+
+  .avatar-box img { width: 60px; }
+
+  .info-content .name {
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+
+  .info-content .title {
+    font-size: 10px;
+    padding: 2px 10px;
+  }
+
+  .info_more-btn {
+    top: -12px;
+    right: -12px;
+    padding: 8px;
+    font-size: 11px;
+  }
+
+  .info_more-btn span { display: none; }
+  .info_more-btn ion-icon { display: block; }
+
+  .contacts-list { gap: 12px; }
+
+  .contact-item { gap: 12px; }
+
+  .contact-info {
+    max-width: calc(100% - 38px);
+    width: calc(100% - 38px);
+  }
+
+  .contact-title { font-size: 10px; }
+
+  .contact-info :is(.contact-link, time, address) {
+    font-size: 12px;
+  }
+
+  .social-list { gap: 12px; }
+
+  .social-item .social-link { font-size: 16px; }
+
+
+  /**
+   * NAVBAR
+   */
+
+  .navbar-list {
+    gap: 0;
+    padding: 0 4px;
+  }
+
+  .navbar-link {
+    font-size: 10px;
+    padding: 14px 4px;
+  }
+
+  .navbar-item .theme-toggle {
+    font-size: 16px;
+    padding: 14px 6px;
+  }
+
+
+  /**
+   * REUSED STYLE
+   */
+
+  .sidebar, article {
+    padding: 12px;
+    border-radius: 14px;
+  }
+
+  .article-title {
+    font-size: 20px;
+    padding-bottom: 6px;
+  }
+
+  .article-title::after {
+    width: 24px;
+    height: 2px;
+  }
+
+  .icon-box {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+
+  .separator { margin: 12px 0; }
+
+
+  /**
+   * ABOUT
+   */
+
+  .about-text { font-size: 13px; }
+
+  .service-item {
+    padding: 16px;
+  }
+
+  .service-content-box { text-align: center; }
+
+  .service-item-title { font-size: 14px; }
+
+  .service-item-text { font-size: 13px; }
+
+
+  /**
+   * COUNTER STATS
+   */
+
+  .counter-stats-list {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .counter-stats-item {
+    padding: 18px 14px;
+  }
+
+  .counter-stats-value {
+    font-size: 28px;
+  }
+
+  .counter-plus { font-size: 18px; }
+
+  .counter-stats-label { font-size: 12px; }
+
+
+  /**
+   * TESTIMONIALS
+   */
+
+  .testimonials-list {
+    gap: 12px;
+    margin: 0 -12px;
+    padding: 20px 12px;
+    padding-bottom: 30px;
+  }
+
+  .content-card {
+    padding: 12px;
+    padding-top: 40px;
+  }
+
+  .testimonials-avatar-box {
+    transform: translate(12px, -22px);
+  }
+
+  .testimonials-avatar-box img { width: 50px; }
+
+  .testimonials-item-title {
+    font-size: 14px;
+    margin-bottom: 5px;
+    margin-left: 0;
+  }
+
+  .testimonials-text {
+    font-size: 13px;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+  }
+
+  .testimonials-modal {
+    padding: 12px;
+    margin: 10px 8px;
+  }
+
+  .modal-avatar-box img { width: 50px; }
+
+
+  /**
+   * FITNESS
+   */
+
+  .fitness-img-box img,
+  .fitness-img-box video {
+    height: 160px;
+  }
+
+  .fitness-modal {
+    padding: 14px;
+    margin: 10px 8px;
+  }
+
+
+  /**
+   * RESUME
+   */
+
+  .timeline-list {
+    margin-left: 30px;
+  }
+
+  .timeline-item:not(:last-child)::before {
+    left: -24px;
+  }
+
+  .timeline-item::after {
+    left: -27px;
+    height: 5px;
+    width: 5px;
+  }
+
+  .timeline-item-title { font-size: 14px; }
+
+  .timeline-text { font-size: 13px; }
+
+  .badge-item {
+    font-size: 11px;
+    padding: 5px 12px;
+  }
+
+  .resume-download-btn {
+    padding: 12px 22px;
+    font-size: 13px;
+  }
+
+
+  /**
+   * PORTFOLIO
+   */
+
+  .project-img {
+    height: 160px;
+  }
+
+  .project-title { font-size: 14px; }
+
+  .project-category { font-size: 12px; }
+
+  .portfolio-modal {
+    padding: 16px;
+    margin: 10px 8px;
+  }
+
+  .portfolio-modal-title { font-size: 18px; }
+
+  .portfolio-modal-desc { font-size: 13px; }
+
+  .portfolio-modal-link {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+
+  /**
+   * BLOG
+   */
+
+  .blog-banner-box {
+    height: 160px;
+  }
+
+  .blog-content { padding: 12px; }
+
+  .blog-item-title { font-size: 14px; }
+
+  .blog-text { font-size: 13px; }
+
+  .blog-meta :is(.blog-category, time) { font-size: 12px; }
+
+
+  /**
+   * CONTACT
+   */
+
+  .mapbox { height: 180px; }
+
+  .form-input { font-size: 13px; padding: 11px 16px; }
+
+  .form-btn { font-size: 13px; padding: 11px 16px; }
+
+  .form-title { font-size: 18px; }
+
+  .input-wrapper { gap: 16px; }
+
+
+  /**
+   * BACK TO TOP
+   */
+
+  .back-to-top {
+    bottom: 70px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+}
+
+
 /**
  * responsive larger than 450px screen
  */
@@ -2205,12 +2543,6 @@ article.active > section:nth-of-type(8) { animation-delay: 0.48s; }
   .info-content .name { margin-bottom: 15px; }
 
   .info-content .title { padding: 5px 18px; }
-
-  .info_more-btn {
-    top: -30px;
-    right: -30px;
-    padding: 10px 15px;
-  }
 
   .info_more-btn span {
     display: block;
