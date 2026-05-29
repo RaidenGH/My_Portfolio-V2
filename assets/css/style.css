@@ -153,7 +153,14 @@ input, textarea {
 
 :focus { outline-color: var(--orange-yellow-crayola); }
 
-html { font-family: var(--ff-poppins); }
+html {
+  font-family: var(--ff-poppins);
+  background: hsl(0, 0%, 5%);
+}
+
+html:has(body.light-mode) {
+  background: hsl(0, 0%, 97%);
+}
 
 
 
